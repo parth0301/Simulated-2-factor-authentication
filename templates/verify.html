@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Verify</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <img src="/static/img/ticket.png" alt="Lock">
+    <h1>Authenticate Your Account</h1>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+        <label>Enter the code:</label>
+        <input type="text" name="code" autofocus required>
+        <br>
+        <br>
+        {% if totp is defined %}
+        <p>Open your authenticator app and enter the following code:</p>
+        <br>
+        <p class="mfacode">{{ totp.now() }}</p>
+        <br>
+        <p id="remaining-time">Code will update in {{ remaining_time }} seconds.</p>
+        {% endif %}
+        <input type="submit" value="Verify">
+    </form>
+    <script>
+        var remainingTimeElement = document.getElementById('remaining-time');
+        var remainingTime = parseInt('{{ remaining_time }}', 10);
+
+        setInterval(function() {
+            if (remainingTime <= 0) {
+                window.location.reload();
+            } else {
+                remainingTime--;
+                remainingTimeElement.textContent = 'Code will update in ' + remainingTime + ' seconds.';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

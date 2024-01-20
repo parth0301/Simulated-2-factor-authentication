@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <img src="/static/img/lock.png" alt="Lock">
+    <h1>Login</h1>
+    {% if error %}
+    <p>{{ error }}</p>
+    {% endif %}
+    <br>
+    <br>
+    <form method="POST">
+        <p>Username / Password</p>
+        <input type="text" name="username" autofocus required>
+        <br>
+        <input type="password" name="password" required>
+        <br>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
